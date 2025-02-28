@@ -1,14 +1,14 @@
 package quarkus;
 
 public class CreateUserRequest {
-    private String firstName;
+    private String name;
     private int age;
 
     // Construtor padrão necessário para desserialização do JSON
     public CreateUserRequest() {}
 
-    public CreateUserRequest(String firstName, int age) {
-        this.firstName = firstName;
+    public CreateUserRequest(String name, int age) {
+        this.name = name;
         this.age = age;
     }
 
@@ -20,11 +20,11 @@ public class CreateUserRequest {
         this.age = age;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getname() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setname(String firstName) {
+        this.name = firstName;
     }
 }
