@@ -24,7 +24,7 @@ public class CreateUserRequest {
         return name;
     }
 
-    public void setname(String firstName) {
-        this.name = firstName;
+    public void setname(String name) {
+        this.name = name;
     }
 }
