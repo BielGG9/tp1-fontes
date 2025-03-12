@@ -1,47 +1,30 @@
-// Certificacao.java
 package io.github.BielGG9.quarkus.domain.model;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import jakarta.persistence.*;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-@Entity
-@Table(name = "certificacao")
-public class Certificacao extends PanacheEntityBase {
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+public enum Certificacao {
+    BRONZE(1, "Bronze"),
+    PRATA(2, "Prata"),
+    OURO(3, "Ouro"),
+    PLATINA(4, "Platina");
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private final int ID;
+    private final String NOME;
 
-    @Column(name = "nome")
-    private String nome;
-
-    public String getNome() {
-        return nome;
+    private Certificacao(int id, String nome) {
+        this.ID = id;
+        this.NOME = nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    public int getID() { return ID; }
+    public String getNOME() { return NOME; }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Certificacao that = (Certificacao) o;
-        return Objects.equals(id, that.id) && Objects.equals(nome, that.nome);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, nome);
+    public static Certificacao valueOf(int id) {
+        for (Certificacao c : Certificacao.values()) {
+            if (c.getID() == id)
+                return c;
+        }
+        return null;
     }
 }
