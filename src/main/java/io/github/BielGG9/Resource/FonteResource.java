@@ -1,7 +1,8 @@
-package io.github.BielGG9.quarkus.domain.model;
+package io.github.BielGG9.Resource;
 
 import io.github.BielGG9.Service.FonteService;
 import io.github.BielGG9.DTO.FonteDto;
+import io.github.BielGG9.quarkus.domain.model.Fonte;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

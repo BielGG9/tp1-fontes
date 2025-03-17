@@ -19,19 +19,19 @@ public class FonteServiceImpl implements FonteService { // Agora implementa a in
     @Override
     @Transactional
     public Fonte create(FonteDto fonteDto) {
-        Marca marca = Marca.fromId(fonteDto.getIdMarca());
+        Marca marca = Marca.fromId(fonteDto.idMarca());
         if (marca == null) {
-            throw new IllegalArgumentException("Marca com ID " + fonteDto.getIdMarca() + " é inválida.");
+            throw new IllegalArgumentException("Marca com ID " + fonteDto.idMarca() + " é inválida.");
         }
 
         // ✅ Converte a String do DTO para o Enum Certificacao
-        Certificacao certificacao = Certificacao.valueOf(fonteDto.getCertificacao().toUpperCase());
+        Certificacao certificacao = Certificacao.valueOf(fonteDto.certificacao().toUpperCase());
 
         Fonte novaFonte = new Fonte();
-        novaFonte.setNome(fonteDto.getNome());
-        novaFonte.setPotencia(fonteDto.getPotencia());
+        novaFonte.setNome(fonteDto.nome());
+        novaFonte.setPotencia(fonteDto.potencia());
         novaFonte.setCertificacao(certificacao); // Agora recebe um Enum
-        novaFonte.setPreco(fonteDto.getPreco());
+        novaFonte.setPreco(fonteDto.preco());
         novaFonte.setMarca(marca);
 
         fonteRepository.persist(novaFonte);
@@ -48,13 +48,13 @@ public class FonteServiceImpl implements FonteService { // Agora implementa a in
         }
 
         // ✅ Converte a String para Enum antes de definir
-        Certificacao certificacao = Certificacao.valueOf(fonteDto.getCertificacao().toUpperCase());
+        Certificacao certificacao = Certificacao.valueOf(fonteDto.certificacao().toUpperCase());
 
-        fonteEditada.setNome(fonteDto.getNome());
-        fonteEditada.setPotencia(fonteDto.getPotencia());
+        fonteEditada.setNome(fonteDto.nome());
+        fonteEditada.setPotencia(fonteDto.potencia());
         fonteEditada.setCertificacao(certificacao); // ✅ Agora usa um Enum corretamente
-        fonteEditada.setPreco(fonteDto.getPreco());
-        fonteEditada.setMarca(Marca.fromId(fonteDto.getIdMarca()));
+        fonteEditada.setPreco(fonteDto.preco());
+        fonteEditada.setMarca(Marca.fromId(fonteDto.idMarca()));
     }
 
 
