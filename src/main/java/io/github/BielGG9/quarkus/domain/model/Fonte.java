@@ -18,7 +18,7 @@ public class Fonte {
     @Enumerated(EnumType.STRING)
     private Marca marca;
 
-    @Convert(converter = CertificacaoConverter.class) // ✅ Usa o conversor para o Enum
+    @Convert(converter = CertificacaoConverter.class)
     private Certificacao certificacao;
 
     public Fonte() {}

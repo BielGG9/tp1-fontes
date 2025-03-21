@@ -30,7 +30,7 @@ public class FonteResource {
 
     @PUT
     @Path("/{id}")
-    public Response atualizarFonte(@PathParam("id") Long id, FonteDto fonteDto) {  // 🔹 Corrigido
+    public Response atualizarFonte(@PathParam("id") Long id, FonteDto fonteDto) {
         Fonte fonteAtualizada = fonteService.update(fonteDto, id);
         return Response.ok(fonteAtualizada).build();
     }

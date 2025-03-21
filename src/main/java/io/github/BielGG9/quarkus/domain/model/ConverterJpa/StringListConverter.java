@@ -14,7 +14,7 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
         if (list == null || list.isEmpty()) {
             return null;
         }
-        return String.join(",", list); // Salva como "item1,item2,item3"
+        return String.join(",", list);
     }
 
     @Override

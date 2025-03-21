@@ -5,7 +5,7 @@ import io.github.BielGG9.quarkus.domain.model.Certificacao;
 public record FonteDto(
          String nome,
          int potencia,
-         String certificacao, // ✅ String recebida da requisição
+         String certificacao,
          double preco,
          int idMarca) {
     }
