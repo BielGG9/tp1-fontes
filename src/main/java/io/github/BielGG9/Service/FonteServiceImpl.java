@@ -11,7 +11,7 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 
 @ApplicationScoped
-public class FonteServiceImpl implements FonteService { // Agora implementa a interface
+public class FonteServiceImpl implements FonteService {
 
     @Inject
     FonteRepository fonteRepository;
@@ -24,13 +24,12 @@ public class FonteServiceImpl implements FonteService { // Agora implementa a in
             throw new IllegalArgumentException("Marca com ID " + fonteDto.idMarca() + " é inválida.");
         }
 
-        // ✅ Converte a String do DTO para o Enum Certificacao
         Certificacao certificacao = Certificacao.valueOf(fonteDto.certificacao().toUpperCase());
 
         Fonte novaFonte = new Fonte();
         novaFonte.setNome(fonteDto.nome());
         novaFonte.setPotencia(fonteDto.potencia());
-        novaFonte.setCertificacao(certificacao); // Agora recebe um Enum
+        novaFonte.setCertificacao(certificacao);
         novaFonte.setPreco(fonteDto.preco());
         novaFonte.setMarca(marca);
 
@@ -38,25 +37,23 @@ public class FonteServiceImpl implements FonteService { // Agora implementa a in
         return novaFonte;
     }
 
-
     @Override
     @Transactional
-    public void update(FonteDto fonteDto, long id) {
+    public Fonte update(FonteDto fonteDto, long id) {
         Fonte fonteEditada = fonteRepository.findById(id);
         if (fonteEditada == null) {
             throw new IllegalArgumentException("Fonte com ID " + id + " não encontrada.");
         }
 
-        // ✅ Converte a String para Enum antes de definir
         Certificacao certificacao = Certificacao.valueOf(fonteDto.certificacao().toUpperCase());
 
         fonteEditada.setNome(fonteDto.nome());
         fonteEditada.setPotencia(fonteDto.potencia());
-        fonteEditada.setCertificacao(certificacao); // ✅ Agora usa um Enum corretamente
+        fonteEditada.setCertificacao(certificacao);
         fonteEditada.setPreco(fonteDto.preco());
         fonteEditada.setMarca(Marca.fromId(fonteDto.idMarca()));
+        return fonteEditada;
     }
-
 
     @Override
     @Transactional
@@ -80,4 +77,11 @@ public class FonteServiceImpl implements FonteService { // Agora implementa a in
     public List<Fonte> findAll() {
         return fonteRepository.listAll();
     }
+
+    @Override
+    public List<Fonte> findByNome(String marca) {
+        Marca marcaEnum = Marca.valueOf(marca.toUpperCase()); // Converte String para Enum
+        return fonteRepository.find("marca", marcaEnum).list(); // Busca pelo Enum corretamente
+    }
+
 }
