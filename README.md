@@ -6,7 +6,7 @@ Diagrama de classes representando as classes, relacionamentos e multiplicidades.
 
 📂 **[UML do projeto](Documents/UMLtp1-fontes.png)**  
 
-![Diagrama UML](docs/UML-tp1-fontes.png)
+![Diagrama UML](https://raw.githubusercontent.com/BielGG9/(https://github.com/BielGG9/tp1-fontes)/main/Documents/UMLtp1-fontes.png)
 
 ---
 
