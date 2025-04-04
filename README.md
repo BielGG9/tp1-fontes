@@ -6,7 +6,7 @@ Diagrama de classes representando as classes, relacionamentos e multiplicidades.
 
 📂 **[UML do projeto](Documents/UMLtp1-fontes.png)**  
 
-![UML do Projeto](Documents/UMLtp1-fontes.png) 
+![Diagrama UML](docs/UML-tp1-fontes.png)
 
 ---
 
