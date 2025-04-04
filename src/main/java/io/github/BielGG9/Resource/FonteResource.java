@@ -1,59 +1,68 @@
 package io.github.BielGG9.Resource;
 
+import io.github.BielGG9.DTO.FonteRequestDto;
 import io.github.BielGG9.Service.FonteService;
-import io.github.BielGG9.DTO.FonteDto;
-import io.github.BielGG9.quarkus.domain.model.Fonte;
+import io.github.BielGG9.DTO.FonteResponseDto;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 
-@Path("/fontes")
+@Path("fontes")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class FonteResource {
 
     @Inject
-    FonteService fonteService;
+    FonteService service;
 
     @GET
-    public List<Fonte> listarFontes() {
-        return fonteService.findAll();
-    }
-
-    @POST
-    public Response adicionarFonte(FonteDto fonteDto) {
-        Fonte novaFonte = fonteService.create(fonteDto);
-        return Response.status(Response.Status.CREATED).entity(novaFonte).build();
-    }
-
-    @PUT
-    @Path("/{id}")
-    public Response atualizarFonte(@PathParam("id") Long id, FonteDto fonteDto) {
-        Fonte fonteAtualizada = fonteService.update(fonteDto, id);
-        return Response.ok(fonteAtualizada).build();
+    public List<FonteResponseDto> buscarTodos() {
+        return service.findAll();
     }
 
     @GET
     @Path("/{id}")
-    public Response buscarPorId(@PathParam("id") Long id) {
-        Fonte fonte = fonteService.findById(id);
-        return Response.ok(fonte).build();
+    public FonteResponseDto buscarPorId(@PathParam("id") Long id) {
+        return service.findById(id);
     }
 
     @GET
     @Path("/marca/{marca}")
-    public Response buscarPorMarca(@PathParam("marca") String marca) {
-        List<Fonte> fontes = fonteService.findByNome(marca);
-        return Response.ok(fontes).build();
+    public List<FonteResponseDto> buscarPorMarca(@PathParam("marca") String nomeMarca) {
+        return service.findByMarca(nomeMarca);
     }
 
 
+    @GET
+    @Path("/potencia/{potencia}")
+    public List<FonteResponseDto> buscarPorPotencia(@PathParam("potencia") int potencia) {
+        return service.findByPotencia(potencia);
+    }
+
+    @GET
+    @Path("/certificacao/{certificacao}")
+    public List<FonteResponseDto> buscarPorCertificacao(@PathParam("certificacao") String certificacao) {
+        return service.findByCertificacao(certificacao);
+    }
+
+    @POST
+    public FonteResponseDto incluir(FonteRequestDto dto) {
+        return service.create(dto);
+    }
+
+    @PUT
+    @Path("/{id}")
+    public void alterar(@PathParam("id") Long id, FonteRequestDto dto) {
+        service.update(id, dto);
+    }
+
     @DELETE
     @Path("/{id}")
-    public Response removerFonte(@PathParam("id") Long id) {
-        fonteService.delete(id);
-        return Response.noContent().build();
+    @Transactional
+    public void apagar(@PathParam("id") Long id) {
+        service.delete(id);
     }
 }

@@ -4,18 +4,16 @@ import io.github.BielGG9.quarkus.domain.model.ConverterJpa.CertificacaoConverter
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "fontes")
-public class Fonte {
+public class Fonte extends DefaultEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String nome;
+    @Column(nullable = false)
     private int potencia;
+
+    @Column(nullable = false)
     private double preco;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_marca", nullable = false)
     private Marca marca;
 
     @Convert(converter = CertificacaoConverter.class)
@@ -23,24 +21,14 @@ public class Fonte {
 
     public Fonte() {}
 
-    public Fonte(Marca marca, int potencia, Certificacao certificacao, double preco, String nome) {
-        this.marca = marca;
-        this.potencia = potencia;
-        this.certificacao = certificacao;
-        this.preco = preco;
-        this.nome = nome;
-    }
-
-    public Long getId() { return id; }
-    public String getNome() { return nome; }
     public Marca getMarca() { return marca; }
     public int getPotencia() { return potencia; }
     public Certificacao getCertificacao() { return certificacao; }
     public double getPreco() { return preco; }
 
-    public void setNome(String nome) { this.nome = nome; }
     public void setMarca(Marca marca) { this.marca = marca; }
     public void setPotencia(int potencia) { this.potencia = potencia; }
     public void setCertificacao(Certificacao certificacao) { this.certificacao = certificacao; }
     public void setPreco(double preco) { this.preco = preco; }
 }
+

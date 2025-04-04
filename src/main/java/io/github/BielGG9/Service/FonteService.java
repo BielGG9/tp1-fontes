@@ -1,15 +1,17 @@
 package io.github.BielGG9.Service;
 
-import io.github.BielGG9.DTO.FonteDto;
-import io.github.BielGG9.quarkus.domain.model.Fonte;
+import io.github.BielGG9.DTO.FonteRequestDto;
+import io.github.BielGG9.DTO.FonteResponseDto;
 
 import java.util.List;
 
 public interface FonteService {
-    Fonte create(FonteDto fonteDto);
-    Fonte update(FonteDto fonteDto, long id);
+    FonteResponseDto create(FonteRequestDto fonteDTO);
+    void update(long id, FonteRequestDto fonteDTO);
     void delete(long id);
-    Fonte findById(long id);
-    List<Fonte> findAll();
-    List<Fonte> findByNome(String marca);
+    FonteResponseDto findById(long id);
+    List<FonteResponseDto> findByMarca(String idMarca);
+    List<FonteResponseDto> findAll();
+    List<FonteResponseDto> findByCertificacao(String certificacao);
+    List<FonteResponseDto> findByPotencia(int potencia);
 }

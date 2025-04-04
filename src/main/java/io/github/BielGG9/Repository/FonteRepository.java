@@ -10,14 +10,15 @@ import java.util.List;
 @ApplicationScoped
 public class FonteRepository implements PanacheRepository<Fonte> {
     public List<Fonte> findByMarca(Marca marca) {
-        return list("marca", marca);
+        return find("SELECT m FROM Marca m WHERE m.nome LIKE ?1 ", "%" + marca + "%").list();
     }
 
     public List<Fonte> findByPotencia(int potencia) {
-        return list("potencia", potencia);
+
+        return find("SELECT m FROM Marca m WHERE m.nome LIKE ?1 ", "%" + potencia + "%").list();
     }
 
     public List<Fonte> findByCertificacao(String certificacao) {
-        return list("certificacao", certificacao);
+        return find("SELECT m FROM Marca m WHERE m.nome LIKE ?1 ", "%" + certificacao + "%").list();
     }
 }

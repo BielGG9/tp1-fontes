@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 public class DefaultEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

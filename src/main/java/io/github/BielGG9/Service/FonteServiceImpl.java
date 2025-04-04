@@ -1,7 +1,9 @@
 package io.github.BielGG9.Service;
 
+import io.github.BielGG9.DTO.FonteRequestDto;
+import io.github.BielGG9.DTO.FonteResponseDto;
 import io.github.BielGG9.Repository.FonteRepository;
-import io.github.BielGG9.DTO.FonteDto;
+import io.github.BielGG9.Repository.MarcaRepository;
 import io.github.BielGG9.quarkus.domain.model.Certificacao;
 import io.github.BielGG9.quarkus.domain.model.Fonte;
 import io.github.BielGG9.quarkus.domain.model.Marca;
@@ -9,6 +11,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class FonteServiceImpl implements FonteService {
@@ -16,43 +19,44 @@ public class FonteServiceImpl implements FonteService {
     @Inject
     FonteRepository fonteRepository;
 
+    @Inject
+    MarcaRepository marcaRepository;
+
     @Override
     @Transactional
-    public Fonte create(FonteDto fonteDto) {
-        Marca marca = Marca.fromId(fonteDto.idMarca());
+    public FonteResponseDto create(FonteRequestDto fonteDTO) {
+        Marca marca = marcaRepository.findById(Long.valueOf(fonteDTO.idMarca()));
         if (marca == null) {
-            throw new IllegalArgumentException("Marca com ID " + fonteDto.idMarca() + " é inválida.");
+            throw new IllegalArgumentException("Marca com ID " + fonteDTO.idMarca() + " não encontrada.");
         }
 
-        Certificacao certificacao = Certificacao.valueOf(fonteDto.certificacao().toUpperCase());
-
         Fonte novaFonte = new Fonte();
-        novaFonte.setNome(fonteDto.nome());
-        novaFonte.setPotencia(fonteDto.potencia());
-        novaFonte.setCertificacao(certificacao);
-        novaFonte.setPreco(fonteDto.preco());
+        novaFonte.setPotencia(fonteDTO.potencia());
+        novaFonte.setCertificacao(Certificacao.valueOf(fonteDTO.certificacao().toUpperCase()));
+        novaFonte.setPreco(fonteDTO.preco());
         novaFonte.setMarca(marca);
 
         fonteRepository.persist(novaFonte);
-        return novaFonte;
+        return FonteResponseDto.valueOf(novaFonte);
     }
 
     @Override
     @Transactional
-    public Fonte update(FonteDto fonteDto, long id) {
+    public void update(long id, FonteRequestDto fonteDTO) {
         Fonte fonteEditada = fonteRepository.findById(id);
         if (fonteEditada == null) {
             throw new IllegalArgumentException("Fonte com ID " + id + " não encontrada.");
         }
 
-        Certificacao certificacao = Certificacao.valueOf(fonteDto.certificacao().toUpperCase());
+        Marca marca = marcaRepository.findById(Long.valueOf(fonteDTO.idMarca()));
+        if (marca == null) {
+            throw new IllegalArgumentException("Marca com ID " + fonteDTO.idMarca() + " não encontrada.");
+        }
 
-        fonteEditada.setNome(fonteDto.nome());
-        fonteEditada.setPotencia(fonteDto.potencia());
-        fonteEditada.setCertificacao(certificacao);
-        fonteEditada.setPreco(fonteDto.preco());
-        fonteEditada.setMarca(Marca.fromId(fonteDto.idMarca()));
-        return fonteEditada;
+        fonteEditada.setPotencia(fonteDTO.potencia());
+        fonteEditada.setCertificacao(Certificacao.valueOf(fonteDTO.certificacao().toUpperCase()));
+        fonteEditada.setPreco(fonteDTO.preco());
+        fonteEditada.setMarca(marca);
     }
 
     @Override
@@ -65,23 +69,51 @@ public class FonteServiceImpl implements FonteService {
     }
 
     @Override
-    public Fonte findById(long id) {
+    public FonteResponseDto findById(long id) {
         Fonte fonte = fonteRepository.findById(id);
         if (fonte == null) {
             throw new IllegalArgumentException("Fonte com ID " + id + " não encontrada.");
         }
-        return fonte;
+        return FonteResponseDto.valueOf(fonte);
     }
 
     @Override
-    public List<Fonte> findAll() {
-        return fonteRepository.listAll();
+    public List<FonteResponseDto> findByMarca(String nomeMarca) {
+        Marca marca = marcaRepository.find("nome", nomeMarca).firstResult();
+        if (marca == null) {
+            throw new IllegalArgumentException("Marca com nome " + nomeMarca + " não encontrada.");
+        }
+        return fonteRepository.find("marca", marca)
+                .list()
+                .stream()
+                .map(FonteResponseDto::valueOf)
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public List<FonteResponseDto> findAll() {
+        return fonteRepository.listAll()
+                .stream()
+                .map(FonteResponseDto::valueOf)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Fonte> findByNome(String marca) {
-        Marca marcaEnum = Marca.valueOf(marca.toUpperCase()); // Converte String para Enum
-        return fonteRepository.find("marca", marcaEnum).list(); // Busca pelo Enum corretamente
+    public List<FonteResponseDto> findByCertificacao(String certificacao) {
+        return fonteRepository.find("certificacao", Certificacao.valueOf(certificacao.toUpperCase()))
+                .list()
+                .stream()
+                .map(FonteResponseDto::valueOf)
+                .collect(Collectors.toList());
     }
 
+    @Override
+    public List<FonteResponseDto> findByPotencia(int potencia) {
+        return fonteRepository.find("potencia", potencia)
+                .list()
+                .stream()
+                .map(FonteResponseDto::valueOf)
+                .collect(Collectors.toList());
+    }
 }
