@@ -9,7 +9,7 @@ public record FonteResponseDto(
         int potencia,
         Certificacao certificacao,
         double preco,
-        String marca) { // Agora é uma String, não um objeto MarcaResponseDto
+        String marca) {
 
     public static FonteResponseDto valueOf(Fonte fonte) {
         if (fonte == null)
