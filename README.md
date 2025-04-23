@@ -4,9 +4,11 @@ Projeto destinado ao desenvolvimento de uma API que simula um **e-commerce de Fo
 ## 📌 **UML**  
 Diagrama de classes representando as classes, relacionamentos e multiplicidades.  
 
-📂 **[UML do projeto](docs/UMLtp1-fontes.png)**  
+📂 **[UML do projeto](docs/UMLtp1-fontes.jpeg)**  
 
-![Diagrama UML](docs/UMLtp1-fontes.png)
+![Diagrama UML](./docs/tp1-fontes.jpeg)
+
+
 
 ---
 
