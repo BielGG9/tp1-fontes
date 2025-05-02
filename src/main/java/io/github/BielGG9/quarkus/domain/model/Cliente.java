@@ -17,7 +17,10 @@ public class Cliente extends DefaultEntity {
     @Column(nullable = false)
     private String endereco;
 
-    // Getters e setters
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "perfil_id")
+    private Perfil perfil;
+
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
 
@@ -29,4 +32,7 @@ public class Cliente extends DefaultEntity {
 
     public String getEndereco() { return endereco; }
     public void setEndereco(String endereco) { this.endereco = endereco; }
+
+    public Perfil getPerfil() { return perfil; }
+    public void setPerfil(Perfil perfil) { this.perfil = perfil; }
 }
