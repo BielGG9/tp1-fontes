@@ -15,7 +15,6 @@ public class Pedido extends DefaultEntity {
 
     private String status;
 
-    // Getters e Setters
     public Cliente getCliente() { return cliente; }
     public void setCliente(Cliente cliente) { this.cliente = cliente; }
 

@@ -1,6 +1,5 @@
 package io.github.BielGG9.quarkus.domain.model;
 
-
 import jakarta.persistence.*;
 
 @Entity
@@ -16,7 +15,6 @@ public class ItemPedido extends DefaultEntity {
 
     private double precoUnitario;
 
-    // Getters e Setters
     public Pedido getPedido() { return pedido; }
     public void setPedido(Pedido pedido) { this.pedido = pedido; }
 

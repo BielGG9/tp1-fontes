@@ -1,7 +1,6 @@
 package io.github.BielGG9.quarkus.domain.model;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @MappedSuperclass
@@ -16,7 +15,6 @@ public class DefaultEntity {
     @PrePersist
     public void registrarCadastro() {
         DataCadastro = LocalDateTime.now();
-
     }
 
     @PreUpdate
@@ -24,27 +22,12 @@ public class DefaultEntity {
         DataAtualizacao = LocalDateTime.now();
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public LocalDateTime getDataCadastro() { return DataCadastro; }
+    public void setDataCadastro(LocalDateTime dataCadastro) { this.DataCadastro = dataCadastro; }
 
-    public LocalDateTime getDataCadastro() {
-        return DataCadastro;
-    }
-
-    public void setDataCadastro(LocalDateTime dataCadastro) {
-        this.DataCadastro = dataCadastro;
-    }
-
-    public LocalDateTime getDataAtualizacao() {
-        return DataAtualizacao;
-    }
-
-    public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
-        this.DataAtualizacao = dataAtualizacao;
-    }
+    public LocalDateTime getDataAtualizacao() { return DataAtualizacao; }
+    public void setDataAtualizacao(LocalDateTime dataAtualizacao) { this.DataAtualizacao = dataAtualizacao; }
 }
