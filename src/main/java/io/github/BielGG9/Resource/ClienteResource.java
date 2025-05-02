@@ -4,8 +4,10 @@ import io.github.BielGG9.DTO.ClienteRequestDto;
 import io.github.BielGG9.DTO.ClienteResponseDto;
 import io.github.BielGG9.Service.ClienteService;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/clientes")
@@ -16,31 +18,40 @@ public class ClienteResource {
     @Inject
     ClienteService service;
 
+    public void setService(ClienteService service) {
+        this.service = service;
+    }
+
     @GET
-    public List<ClienteResponseDto> listarTodos() {
-        return service.listarTodos();
+    public Response listarTodos() {
+        List<ClienteResponseDto> lista = service.listarTodos();
+        return Response.ok(lista).build(); // HTTP 200
     }
 
     @GET
     @Path("/{id}")
-    public ClienteResponseDto buscarPorId(@PathParam("id") Long id) {
-        return service.buscarPorId(id);
+    public Response buscarPorId(@PathParam("id") Long id) {
+        ClienteResponseDto dto = service.buscarPorId(id);
+        return Response.ok(dto).build(); // HTTP 200
     }
 
     @POST
-    public ClienteResponseDto salvar(ClienteRequestDto dto) {
-        return service.salvar(dto);
+    public Response salvar(@Valid ClienteRequestDto dto) {
+        ClienteResponseDto response = service.salvar(dto);
+        return Response.status(Response.Status.CREATED).entity(response).build(); // HTTP 201
     }
 
     @PUT
     @Path("/{id}")
-    public ClienteResponseDto atualizar(@PathParam("id") Long id, ClienteRequestDto dto) {
-        return service.atualizar(id, dto);
+    public Response atualizar(@PathParam("id") Long id, @Valid ClienteRequestDto dto) {
+        ClienteResponseDto atualizado = service.atualizar(id, dto);
+        return Response.ok(atualizado).build(); // HTTP 200
     }
 
     @DELETE
     @Path("/{id}")
-    public void deletar(@PathParam("id") Long id) {
+    public Response deletar(@PathParam("id") Long id) {
         service.deletar(id);
+        return Response.noContent().build(); // HTTP 204
     }
 }

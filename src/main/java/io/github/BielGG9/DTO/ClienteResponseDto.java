@@ -5,17 +5,16 @@ import io.github.BielGG9.quarkus.domain.model.Cliente;
 public record ClienteResponseDto(
         String nome,
         String email,
-        String telefone,
-        String endereco
+        String telefone
 ) {
     public static ClienteResponseDto valueOf(Cliente cliente) {
-                  if (cliente == null)
-                         return null;
-                  return new ClienteResponseDto(
-                          cliente.getNome(),
-                          cliente.getEmail(),
-                          cliente.getTelefone(),
-                          cliente.getEndereco()
-                  );
-           }
+        if (cliente == null)
+            return null;
+
+        return new ClienteResponseDto(
+                cliente.getNome(),
+                cliente.getEmail(),
+                cliente.getTelefone()
+        );
+    }
 }

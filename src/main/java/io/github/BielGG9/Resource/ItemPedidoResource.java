@@ -4,6 +4,7 @@ package io.github.BielGG9.Resource;
 import io.github.BielGG9.DTO.ItemPedidoRequestDto;
 import io.github.BielGG9.DTO.ItemPedidoResponseDto;
 import io.github.BielGG9.Service.ItemPedidoService;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -13,6 +14,7 @@ import java.util.List;
 @Path("/itens-pedido")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@ApplicationScoped
 public class ItemPedidoResource {
 
     @Inject
