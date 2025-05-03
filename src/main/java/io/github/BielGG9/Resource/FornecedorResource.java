@@ -15,7 +15,7 @@ import java.util.List;
 public class FornecedorResource {
 
     @Inject
-    FornecedorService service;
+    public FornecedorService service;
 
     @GET
     public List<FornecedorResponseDto> listarTodos() {

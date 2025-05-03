@@ -32,6 +32,9 @@ public class ClienteResource {
     @Path("/{id}")
     public Response buscarPorId(@PathParam("id") Long id) {
         ClienteResponseDto dto = service.buscarPorId(id);
+        if (dto == null) {
+            return Response.status(Response.Status.NOT_FOUND).build(); // HTTP 404
+        }
         return Response.ok(dto).build(); // HTTP 200
     }
 

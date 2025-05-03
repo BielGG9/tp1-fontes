@@ -1,7 +1,8 @@
-package io.github.BielGG9.Resource;
+package io.github.BielGG9.Test;
 
 import io.github.BielGG9.DTO.PedidoRequestDto;
 import io.github.BielGG9.DTO.PedidoResponseDto;
+import io.github.BielGG9.Resource.PedidoResource;
 import io.github.BielGG9.Service.PedidoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

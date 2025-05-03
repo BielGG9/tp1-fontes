@@ -16,7 +16,7 @@ import java.util.List;
 public class MarcaResource {
 
     @Inject
-    MarcaService service;
+    public MarcaService service;
 
     @GET
     public List<MarcaResponseDto> buscarTodos() {

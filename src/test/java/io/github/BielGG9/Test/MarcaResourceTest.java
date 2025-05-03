@@ -1,7 +1,8 @@
-package io.github.BielGG9.Resource;
+package io.github.BielGG9.Test;
 
 import io.github.BielGG9.DTO.MarcaRequestDto;
 import io.github.BielGG9.DTO.MarcaResponseDto;
+import io.github.BielGG9.Resource.MarcaResource;
 import io.github.BielGG9.Service.MarcaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

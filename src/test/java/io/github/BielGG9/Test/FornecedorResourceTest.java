@@ -1,10 +1,12 @@
-package io.github.BielGG9.Resource;
+package io.github.BielGG9.Test;
 
 import io.github.BielGG9.DTO.FornecedorRequestDto;
 import io.github.BielGG9.DTO.FornecedorResponseDto;
+import io.github.BielGG9.Resource.FornecedorResource;
 import io.github.BielGG9.Service.FornecedorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +23,7 @@ public class FornecedorResourceTest {
     public void setup() {
         service = mock(FornecedorService.class);
         resource = new FornecedorResource();
-        resource.service = service;
+        resource.service = service; // Precisa ser public ou protected no FornecedorResource
     }
 
     @Test

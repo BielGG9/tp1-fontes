@@ -1,6 +1,9 @@
-package io.github.BielGG9.Resource;
-import io.github.BielGG9.DTO.*;
-import io.github.BielGG9.Service.*;
+package io.github.BielGG9.Test;
+
+import io.github.BielGG9.DTO.FonteRequestDto;
+import io.github.BielGG9.DTO.FonteResponseDto;
+import io.github.BielGG9.Resource.FonteResource;
+import io.github.BielGG9.Service.FonteService;
 import io.github.BielGG9.quarkus.domain.model.Certificacao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +38,7 @@ public class FonteResourceTest {
         FonteResponseDto dto = new FonteResponseDto(500, Certificacao.BRONZE, 300.0, "Marca");
         when(service.findById(1L)).thenReturn(dto);
         FonteResponseDto result = resource.buscarPorId(1L);
-        assertEquals("80 Plus Bronze", result.certificacao());
+        assertEquals(Certificacao.BRONZE, result.certificacao());
     }
 
     @Test
@@ -62,10 +65,10 @@ public class FonteResourceTest {
     @Test
     public void testIncluir() {
         FonteRequestDto req = new FonteRequestDto(500, "80 Plus Bronze", 300.0, 1L);
-        FonteResponseDto dto = new FonteResponseDto(500, Certificacao.OURO, 300.0, "Pichau");
+        FonteResponseDto dto = new FonteResponseDto(500, Certificacao.BRONZE, 300.0, "Pichau");
         when(service.create(req)).thenReturn(dto);
         FonteResponseDto result = resource.incluir(req);
-        assertEquals("80 Plus Bronze", result.certificacao());
+        assertEquals(Certificacao.BRONZE, result.certificacao());
     }
 
     @Test

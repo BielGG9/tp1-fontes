@@ -1,7 +1,8 @@
-package io.github.BielGG9.Resource;
+package io.github.BielGG9.Test;
 
 import io.github.BielGG9.DTO.ClienteRequestDto;
 import io.github.BielGG9.DTO.ClienteResponseDto;
+import io.github.BielGG9.Resource.ClienteResource;
 import io.github.BielGG9.Service.ClienteService;
 import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,7 @@ public class ClienteResourceTest {
     public void setup() {
         service = mock(ClienteService.class);
         resource = new ClienteResource();
-        resource.setService(service); // Setter adicionado
+        resource.setService(service); // Setter correto
     }
 
     @Test
@@ -39,9 +40,9 @@ public class ClienteResourceTest {
 
     @Test
     public void testBuscarPorIdNotFound() {
-        when(service.buscarPorId(1L)).thenReturn(null);
+        when(service.buscarPorId(1L)).thenReturn(null);  // Simula não encontrado
         Response response = resource.buscarPorId(1L);
-        assertEquals(404, response.getStatus());
+        assertEquals(404, response.getStatus());         // Espera HTTP 404
     }
 
     @Test

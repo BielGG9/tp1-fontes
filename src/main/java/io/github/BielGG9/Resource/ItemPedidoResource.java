@@ -17,7 +17,7 @@ import java.util.List;
 public class ItemPedidoResource {
 
     @Inject
-    ItemPedidoService service;
+    public ItemPedidoService service;
 
     @GET
     public List<ItemPedidoResponseDto> listarTodos() {

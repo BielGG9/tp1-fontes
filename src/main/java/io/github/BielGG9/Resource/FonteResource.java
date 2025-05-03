@@ -16,7 +16,7 @@ import java.util.List;
 public class FonteResource {
 
     @Inject
-    FonteService service;
+    public FonteService service;
 
     @GET
     public List<FonteResponseDto> buscarTodos() {
