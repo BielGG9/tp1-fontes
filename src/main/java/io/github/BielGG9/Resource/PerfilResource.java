@@ -17,7 +17,7 @@ import java.util.List;
 public class PerfilResource {
 
     @Inject
-    PerfilService service;
+    public PerfilService service;
 
     @POST
     public Response create(PerfilRequestDTO dto) {
