@@ -38,7 +38,7 @@ public class FonteResourceTest {
 
     @Test
     public void testBuscarPorId() {
-        FonteResponseDto dto = new FonteResponseDto(500, Certificacao.BRONZE, 300.0, "Marca");
+        FonteResponseDto dto = new FonteResponseDto(500, Certificacao.BRONZE, 300.0, "Marca", 2);
         when(service.findById(1L)).thenReturn(dto);
         FonteResponseDto result = resource.buscarPorId(1L);
         assertEquals(Certificacao.BRONZE, result.certificacao());
@@ -67,8 +67,8 @@ public class FonteResourceTest {
 
     @Test
     public void testIncluir() {
-        FonteRequestDto req = new FonteRequestDto(500, "80 Plus Bronze", 300.0, 1L);
-        FonteResponseDto dto = new FonteResponseDto(500, Certificacao.BRONZE, 300.0, "Pichau");
+        FonteRequestDto req = new FonteRequestDto(500, "80 Plus Bronze", 300.0, 1L, 5);
+        FonteResponseDto dto = new FonteResponseDto(500, Certificacao.BRONZE, 300.0, "Pichau", 4);
         when(service.create(req)).thenReturn(dto);
         FonteResponseDto result = resource.incluir(req);
         assertEquals(Certificacao.BRONZE, result.certificacao());
@@ -76,7 +76,7 @@ public class FonteResourceTest {
 
     @Test
     public void testAlterar() {
-        FonteRequestDto req = new FonteRequestDto(600, "80 Plus Gold", 400.0, 1L);
+        FonteRequestDto req = new FonteRequestDto(600, "80 Plus Gold", 400.0, 1L, 1);
         doNothing().when(service).update(1L, req);
         resource.alterar(1L, req);
         verify(service).update(1L, req);

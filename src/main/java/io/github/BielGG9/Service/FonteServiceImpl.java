@@ -25,7 +25,7 @@ public class FonteServiceImpl implements FonteService {
     @Override
     @Transactional
     public FonteResponseDto create(FonteRequestDto fonteDTO) {
-        Marca marca = marcaRepository.findById(Long.valueOf(fonteDTO.idMarca()));
+        Marca marca = marcaRepository.findById(fonteDTO.idMarca()); // Não precisa de Long.valueOf() se idMarca já é Long
         if (marca == null) {
             throw new IllegalArgumentException("Marca com ID " + fonteDTO.idMarca() + " não encontrada.");
         }
@@ -35,6 +35,7 @@ public class FonteServiceImpl implements FonteService {
         novaFonte.setCertificacao(Certificacao.valueOf(fonteDTO.certificacao().toUpperCase()));
         novaFonte.setPreco(fonteDTO.preco());
         novaFonte.setMarca(marca);
+        novaFonte.setQuantidadeEmEstoque(fonteDTO.quantidadeEmEstoque()); // <-- ADICIONADO AQUI
 
         fonteRepository.persist(novaFonte);
         return FonteResponseDto.valueOf(novaFonte);
@@ -48,7 +49,7 @@ public class FonteServiceImpl implements FonteService {
             throw new IllegalArgumentException("Fonte com ID " + id + " não encontrada.");
         }
 
-        Marca marca = marcaRepository.findById(Long.valueOf(fonteDTO.idMarca()));
+        Marca marca = marcaRepository.findById(fonteDTO.idMarca()); // Não precisa de Long.valueOf() se idMarca já é Long
         if (marca == null) {
             throw new IllegalArgumentException("Marca com ID " + fonteDTO.idMarca() + " não encontrada.");
         }
@@ -57,6 +58,10 @@ public class FonteServiceImpl implements FonteService {
         fonteEditada.setCertificacao(Certificacao.valueOf(fonteDTO.certificacao().toUpperCase()));
         fonteEditada.setPreco(fonteDTO.preco());
         fonteEditada.setMarca(marca);
+        fonteEditada.setQuantidadeEmEstoque(fonteDTO.quantidadeEmEstoque()); // <-- ADICIONADO AQUI
+
+        // fonteRepository.persist(fonteEditada); // Com Panache, se a entidade estiver gerenciada e dentro de uma transação, a atualização é feita no commit.
+        // Se não estiver explícito, pode ser bom adicionar para clareza ou se houver problemas.
     }
 
     @Override
@@ -79,10 +84,15 @@ public class FonteServiceImpl implements FonteService {
 
     @Override
     public List<FonteResponseDto> findByMarca(String nomeMarca) {
-        Marca marca = marcaRepository.find("nome", nomeMarca).firstResult();
-        if (marca == null) {
+        // Ajuste na query para buscar pelo nome da marca, não pelo ID
+        List<Marca> marcas = marcaRepository.find("nome", nomeMarca).list();
+        if (marcas.isEmpty()) {
             throw new IllegalArgumentException("Marca com nome " + nomeMarca + " não encontrada.");
         }
+        // Se puder haver múltiplas marcas com o mesmo nome (improvável para nome exato),
+        // você precisará decidir como lidar com isso. Assumindo que nome da marca é único ou pegamos a primeira.
+        Marca marca = marcas.get(0);
+
         return fonteRepository.find("marca", marca)
                 .list()
                 .stream()

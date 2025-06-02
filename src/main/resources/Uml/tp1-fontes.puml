@@ -1,0 +1,105 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+' =======================
+' Pacote: DTO
+' =======================
+package "DTO" {
+    class MarcaRequestDto {
+        - String nome
+    }
+    class MarcaResponseDto {
+        - String nome
+    }
+    class FonteRequestDto {
+        - int potencia
+        - double preco
+        - Certificacao certificacao
+        - Long idMarca
+    }
+    class FonteResponseDto {
+        - int potencia
+        - double preco
+        - Certificacao certificacao
+        - String marca
+    }
+}
+
+' =======================
+' Pacote: Model
+' =======================
+package "Model" {
+    class Marca {
+        - String nome
+    }
+    class Fonte {
+        - int potencia
+        - double preco
+        - Certificacao certificacao
+        - Marca marca
+    }
+    class Certificacao {
+        - String nome
+    }
+}
+
+Marca "1" o-- "0..*" Fonte : <<associada a>>
+
+' =======================
+' Pacote: Repository
+' =======================
+package "Repository" {
+    interface MarcaRepository
+    interface FonteRepository
+}
+
+MarcaRepository --> Marca
+FonteRepository --> Fonte
+
+' =======================
+' Pacote: Service
+' =======================
+package "Service" {
+    interface MarcaService
+    class MarcaServiceImpl
+    interface FonteService
+    class FonteServiceImpl
+}
+
+MarcaServiceImpl ..|> MarcaService
+FonteServiceImpl ..|> FonteService
+
+MarcaServiceImpl --> MarcaRepository
+FonteServiceImpl --> FonteRepository
+FonteServiceImpl --> MarcaRepository : <<consulta Marca>>
+
+' =======================
+' Pacote: Resource
+' =======================
+package "Resource" {
+    class MarcaResource
+    class FonteResource
+}
+
+MarcaResource --> MarcaService : <<usa>>
+FonteResource --> FonteService : <<usa>>
+
+' =======================
+' Conversores
+' =======================
+class CertificacaoConverter
+class StringListConverter
+
+CertificacaoConverter --> Certificacao
+StringListConverter --> "List<String>"
+
+' =======================
+' DTO -> Model Mapping
+' =======================
+FonteRequestDto --> Fonte : <<cria/atualiza>>
+FonteResponseDto --> Fonte : <<representa>>
+
+MarcaRequestDto --> Marca : <<cria/atualiza>>
+MarcaResponseDto --> Marca : <<representa>>
+
+@enduml

@@ -17,5 +17,9 @@ public record FonteRequestDto(
         double preco,
 
         @NotNull(message = "O ID da marca é obrigatório.")
-        Long idMarca
+        Long idMarca,
+
+        @NotNull(message = "A quantidade em estoque é obrigatória. ")
+        @Min(value = 0, message = "A quantidade de estoque nao pode ser negativa. ")
+        Integer quantidadeEmEstoque
 ) {}
